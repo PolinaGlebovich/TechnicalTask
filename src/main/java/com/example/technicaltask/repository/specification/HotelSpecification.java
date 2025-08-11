@@ -7,6 +7,9 @@ import org.springframework.data.jpa.domain.Specification;
 
 public class HotelSpecification {
 
+    private HotelSpecification() {
+    }
+
     public static Specification<Hotel> hasName(String name) {
         return (root, query, cb) ->
                 name == null ? null : cb.like(cb.lower(root.get("name")), "%" + name.toLowerCase() + "%");

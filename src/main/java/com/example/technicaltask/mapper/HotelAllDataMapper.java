@@ -9,5 +9,4 @@ import org.mapstruct.MappingConstants;
         uses = {AddressMapper.class, ContactsMapper.class, ArrivalTimeMapper.class})
 public interface HotelAllDataMapper {
     HotelAllDataDto toDto(Hotel hotel);
-    Hotel toEntity(HotelAllDataDto dto);
 }
