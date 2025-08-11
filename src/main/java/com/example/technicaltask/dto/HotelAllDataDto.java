@@ -1,10 +1,12 @@
 package com.example.technicaltask.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.util.Set;
 
 @Data
+@AllArgsConstructor
 public class HotelAllDataDto {
     private Long id;
     private String name;
