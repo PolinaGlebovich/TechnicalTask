@@ -1,22 +1,163 @@
 databaseChangeLog:
   - changeSet:
       id: 1
-      author: polina
+      author: Polina
       changes:
         - createTable:
-            tableName: test
+            tableName: address
             columns:
               - column:
                   name: id
-                  type: BIGINT
+                  type: bigint
                   autoIncrement: true
                   constraints:
                     primaryKey: true
+                    nullable: false
               - column:
-                  name: name
-                  type: VARCHAR(255)
+                  name: house_number
+                  type: int
                   constraints:
                     nullable: false
               - column:
+                  name: street
+                  type: varchar(255)
+              - column:
+                  name: city
+                  type: varchar(255)
+              - column:
+                  name: country
+                  type: varchar(255)
+              - column:
+                  name: post_code
+                  type: varchar(255)
+
+  - changeSet:
+      id: 2
+      author: Polina
+      changes:
+        - createTable:
+            tableName: arrival_time
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: check_in
+                  type: time
+                  constraints:
+                    nullable: false
+              - column:
+                  name: check_out
+                  type: time
+
+  - changeSet:
+      id: 3
+      author: Polina
+      changes:
+        - createTable:
+            tableName: contacts
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: phone
+                  type: varchar(255)
+              - column:
+                  name: email
+                  type: varchar(255)
+
+  - changeSet:
+      id: 4
+      author: Polina
+      changes:
+        - createTable:
+            tableName: hotel
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: varchar(1000)
+              - column:
                   name: brand
-                  type: VARCHAR(255)
+                  type: varchar(255)
+              - column:
+                  name: address_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: contacts_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: arrival_time_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: hotel
+            baseColumnNames: address_id
+            referencedTableName: address
+            referencedColumnNames: id
+            constraintName: fk_hotel_address
+        - addForeignKeyConstraint:
+            baseTableName: hotel
+            baseColumnNames: contacts_id
+            referencedTableName: contacts
+            referencedColumnNames: id
+            constraintName: fk_hotel_contacts
+        - addForeignKeyConstraint:
+            baseTableName: hotel
+            baseColumnNames: arrival_time_id
+            referencedTableName: arrival_time
+            referencedColumnNames: id
+            constraintName: fk_hotel_arrival_time
+
+  - changeSet:
+      id: 5
+      author: Polina
+      changes:
+        - createTable:
+            tableName: hotel_amenities
+            columns:
+              - column:
+                  name: hotel_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: amenity
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: hotel_amenities
+            baseColumnNames: hotel_id
+            referencedTableName: hotel
+            referencedColumnNames: id
+            constraintName: fk_amenities_hotel
+        - addPrimaryKey:
+            tableName: hotel_amenities
+            columnNames: hotel_id, amenity
+            constraintName: pk_hotel_amenities
