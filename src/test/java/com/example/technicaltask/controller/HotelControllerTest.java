@@ -5,6 +5,7 @@ import com.example.technicaltask.service.HotelService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -84,7 +85,7 @@ class HotelControllerTest {
         mockMvc.perform(post("/property-view/hotels")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(creationDto)))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.name").value("Test Hotel"));
     }
 
@@ -92,7 +93,7 @@ class HotelControllerTest {
     void addAmenities_ShouldReturnOk_WhenUpdated() throws Exception {
         Mockito.when(hotelService.addAmenitiesToHotel(eq(1L), any(Set.class))).thenReturn(true);
 
-        mockMvc.perform(post("/property-view/1/amenities")
+        mockMvc.perform(post("/property-view/hotels/1/amenities")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(Set.of("Pool"))))
                 .andExpect(status().isOk());
