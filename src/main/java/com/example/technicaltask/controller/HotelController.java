@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -56,11 +57,12 @@ public class HotelController {
 
     @PostMapping("/hotels")
     @Operation(summary = "Creating a hotel")
-    public HotelGeneralDto save(@Valid @RequestBody HotelCreationDto hotelCreationDto) {
-        return hotelService.save(hotelCreationDto);
+    public ResponseEntity<HotelGeneralDto> save(@Valid @RequestBody HotelCreationDto hotelCreationDto) {
+        HotelGeneralDto createdHotel =  hotelService.save(hotelCreationDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdHotel);
     }
 
-    @PostMapping("/{id}/amenities")
+    @PostMapping("/hotels/{id}/amenities")
     @Operation(summary = "Creating amenities for hotel")
     public ResponseEntity<Void> addAmenities(
             @PathVariable Long id,
