@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 @Repository
-public interface HotelRepository extends JpaRepository<Long, Hotel>, JpaSpecificationExecutor<Hotel> {
+public interface HotelRepository extends JpaRepository<Hotel, Long>, JpaSpecificationExecutor<Hotel> {
 
     @Query("SELECT h.brand AS key, COUNT(h) AS count FROM Hotel h GROUP BY h.brand")
     List<Map<String, Object>> countGroupByBrand();
