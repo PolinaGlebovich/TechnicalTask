@@ -4,6 +4,8 @@ import com.example.technicaltask.dto.HotelAllDataDto;
 import com.example.technicaltask.dto.HotelCreationDto;
 import com.example.technicaltask.dto.HotelGeneralDto;
 import com.example.technicaltask.service.HotelService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -23,21 +25,25 @@ import java.util.Set;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("property-view")
+@Tag(name = "Hotels", description = "Service for creating and searching information about hotels")
 public class HotelController {
 
     private final HotelService hotelService;
 
     @GetMapping("/hotels")
+    @Operation(summary = "Finding all hotels")
     public List<HotelGeneralDto> findAllHotels() {
         return hotelService.findAll();
     }
 
     @GetMapping("/hotels/{id}")
+    @Operation(summary = "Finding a hotel by its id")
     public Optional<HotelAllDataDto> findHotelById(@PathVariable Long id) {
         return hotelService.findById(id);
     }
 
     @GetMapping("/search")
+    @Operation(summary = "Searching general information about a hotel by param")
     public List<HotelGeneralDto> searchHotels(
             @RequestParam(required = false) String name,
             @RequestParam(required = false) String brand,
@@ -49,11 +55,13 @@ public class HotelController {
     }
 
     @PostMapping("/hotels")
+    @Operation(summary = "Creating a hotel")
     public HotelGeneralDto save(@Valid @RequestBody HotelCreationDto hotelCreationDto) {
         return hotelService.save(hotelCreationDto);
     }
 
     @PostMapping("/{id}/amenities")
+    @Operation(summary = "Creating amenities for hotel")
     public ResponseEntity<Void> addAmenities(
             @PathVariable Long id,
             @RequestBody Set<String> amenities
@@ -67,6 +75,7 @@ public class HotelController {
     }
 
     @GetMapping("/histogram/{param}")
+    @Operation(summary = "Getting the number of hotels grouped by each value of the specified parameter")
     public Map<String, Long> getHistogram(@PathVariable String param) {
         return hotelService.getHistogram(param);
     }
